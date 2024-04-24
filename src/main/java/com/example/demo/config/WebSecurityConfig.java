@@ -41,17 +41,19 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf ->csrf.disable())
+        http.csrf(csrf ->csrf.disable()).cors(cors -> cors.disable())
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated()
                         authorize.requestMatchers("/api/auth/**").permitAll()
-                                 .requestMatchers("/api/tasks/**").anonymous()
+                                 .requestMatchers("/api/tasks/**").permitAll()
                                  .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                  .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
-                .logout((logout) -> logout.logoutSuccessUrl("/api/auth/signout"))
-                .cors(cors -> cors.disable());
+                .logout((logout) -> logout.logoutSuccessUrl("/api/auth/signout")
+                                          .deleteCookies("JSESSIONID")
+                                          .clearAuthentication(true)
+                                          .invalidateHttpSession(true));
         return http.build();
     }
 

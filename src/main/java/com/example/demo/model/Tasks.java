@@ -1,12 +1,11 @@
 package com.example.demo.model;
 
-
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
-import org.springframework.format.annotation.DateTimeFormat;
+// import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -29,8 +28,8 @@ public class Tasks {
 	private int is_delete;
 	private int status;
 	private String file;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate targetDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
+    private LocalDateTime targetDate;
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

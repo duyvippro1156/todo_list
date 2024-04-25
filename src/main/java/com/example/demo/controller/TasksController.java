@@ -35,9 +35,8 @@ public class TasksController {
         return ResponseEntity.ok(taskService.findAllInCompleteTask()); 
     } 
     @PostMapping("/") 
-    public ResponseEntity<Tasks> createTask(@RequestBody TasksDto task) { 
-        taskService.createNewTask(task);
-        return new ResponseEntity<>(HttpStatus.CREATED); 
+    public ResponseEntity<Tasks> createTask(@RequestBody TasksDto task) {
+        return new ResponseEntity<Tasks>(taskService.createNewTask(task),HttpStatus.CREATED); 
     } 
     @PutMapping("/{id}") 
     public ResponseEntity<TasksDto> updateTask(@PathVariable Long id, @RequestBody TasksDto task) { 

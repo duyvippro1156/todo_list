@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class TasksDto {
 	private int is_delete;
 	private int status;
 	private String file;
-	private LocalDate targetDate;
+	private LocalDateTime targetDate;
 
 	private Long id_user;
 

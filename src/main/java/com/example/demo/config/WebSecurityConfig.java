@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,6 +23,9 @@ public class WebSecurityConfig {
 
     @Autowired
 	private CustomUserDetailsService userDetailsService;
+
+    @Autowired JwtAuthenticationFilter jwtAuthenticationFilterl;
+
     
     @Bean
     public static PasswordEncoder passwordEncoder(){
@@ -45,10 +48,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated()
                         authorize.requestMatchers("/api/auth/**").permitAll()
-                                 .requestMatchers("/api/tasks/**").permitAll()
+                                 .requestMatchers("/api/tasks/**").hasRole("ADMIN")
                                  .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                  .anyRequest().authenticated()
-                )
+                )                               
+                .addFilterBefore(jwtAuthenticationFilterl, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .logout((logout) -> logout.logoutSuccessUrl("/api/auth/signout")
                                           .deleteCookies("JSESSIONID")

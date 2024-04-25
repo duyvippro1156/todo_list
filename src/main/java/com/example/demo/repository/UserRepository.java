@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     Optional<Users> findByUsername(String username);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
+    @Query(value = "SELECT u1.* FROM users u1 INNER JOIN user_task u2 ON u1.id = u2.user_id WHERE u2.task_id = ?1", nativeQuery = true)
+	Users findUsersById(Long id);
 }

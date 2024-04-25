@@ -18,7 +18,7 @@ public class JwtTokenProvider {
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
-    public static final int JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final int JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000;
 
     // generate JWT token
     public String generateToken(Authentication authentication){

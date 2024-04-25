@@ -9,6 +9,7 @@ import com.example.demo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,12 +32,17 @@ public class AuthController {
     // Build Login REST API
     @PostMapping("/signin")
     public ResponseEntity<JWTAuthResponse> authenticate(@RequestBody SignInDto signinDto){
-        String token = authService.login(signinDto);
+        try {
+            String token = authService.login(signinDto);
 
-        JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
-        jwtAuthResponse.setAccessToken(token);
-
-        return ResponseEntity.ok(jwtAuthResponse);
+            JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
+            jwtAuthResponse.setAccessToken(token);
+    
+            return ResponseEntity.ok(jwtAuthResponse);           
+             
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @PostMapping("/signup")

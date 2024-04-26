@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Getter
 @Table(name = "Tasks")
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class Tasks { 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 

@@ -44,7 +44,7 @@ public class TasksServiceImpl implements TasksService {
 	
 	@Override
 	public List<Tasks> getAllTask() { 
-		return taskRepository.findAll(); 
+		return taskRepository.findAllWithoutDeleted(); 
 	} 
 	
 	@Override
@@ -63,27 +63,49 @@ public class TasksServiceImpl implements TasksService {
 	} 
 	
 	@Override
-	public void deleteTask(Long id) { 
-		taskRepository.deleteById(id); 
+	public void deleteTask(Long id) {
+		if(checkAuthor(id)) {
+			taskRepository.softDelete(id); 
+		} 
+		 
 	} 
 	
 	@Override
-	public void updateTask(TasksDto tasksDto, Long id) { 
+	public Tasks updateTask(TasksDto tasksDto, Long id) { 	
 		Tasks tasks = taskRepository.getById(id);
-		Users users = userRepository.findUsersById(id);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Users userAuth = userRepository.findByEmail(auth.getName())
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("not found  "+ auth.getName()));
-        tasks.setTask_name(tasksDto.getTask_name());
+		tasks.setTask_name(tasksDto.getTask_name());
 		tasks.setCompleted(tasksDto.getCompleted());
-        tasks.setLevel(tasksDto.getLevel());
+		tasks.setLevel(tasksDto.getLevel());
 		tasks.setStatus(tasksDto.getStatus());
 		tasks.setFile("test");
 		tasks.setTargetDate(tasksDto.getTargetDate());
 		tasks.setId(id);
-		if(users.getId() == userAuth.getId()) {
-			taskRepository.save(tasks); 
+		if (checkAuthor(id)) {
+			return taskRepository.save(tasks);
+		} else {
+			return taskRepository.getById(id);
 		}
+	}
+
+	@Override
+	public boolean checkAuthor(Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Users users = userRepository.findUsersByTaskId(id);
+		Users userAuth = userRepository.findByEmail(auth.getName())
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("not found  "+ auth.getName()));
+		if(users.getId() == userAuth.getId()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public List<Tasks> searchByTaskName(String keyWord) {
+		return taskRepository.searchByTaskname(keyWord);
 	} 
+
+	
+	
 } 

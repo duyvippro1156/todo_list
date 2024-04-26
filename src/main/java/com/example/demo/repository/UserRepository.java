@@ -16,5 +16,5 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     @Query(value = "SELECT u1.* FROM users u1 INNER JOIN user_task u2 ON u1.id = u2.user_id WHERE u2.task_id = ?1", nativeQuery = true)
-	Users findUsersById(Long id);
+	Users findUsersByTaskId(Long id);
 }

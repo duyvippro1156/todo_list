@@ -21,5 +21,9 @@ public interface TasksService {
 
 	public void deleteTask(Long id);
 	
-	public void updateTask(TasksDto tasksDto, Long id);
+	public Tasks updateTask(TasksDto tasksDto, Long id);
+
+	public boolean checkAuthor (Long id);
+
+	public List<Tasks> searchByTaskName(String keyWord);
 }

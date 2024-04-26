@@ -26,6 +26,17 @@ public class TasksController {
     public ResponseEntity<List<Tasks>> getAllTasks() { 
         return ResponseEntity.ok(taskService.getAllTask()); 
     } 
+
+    @GetMapping("/{id}") 
+    public ResponseEntity<Tasks> getTask(@PathVariable Long id) { 
+        Tasks tasks = taskService.findTaskById(id);
+        if (tasks == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(tasks, HttpStatus.OK);
+        }   
+    } 
+
     @GetMapping("/completed") 
     public ResponseEntity<List<Tasks>> getAllCompletedTasks() { 
         return ResponseEntity.ok(taskService.findAllCompletedTask()); 
@@ -34,6 +45,7 @@ public class TasksController {
     public ResponseEntity<List<Tasks>> getAllIncompleteTasks() { 
         return ResponseEntity.ok(taskService.findAllInCompleteTask()); 
     } 
+    
     @PostMapping("/") 
     public ResponseEntity<Tasks> createTask(@RequestBody TasksDto task) {
         return new ResponseEntity<Tasks>(taskService.createNewTask(task),HttpStatus.CREATED); 

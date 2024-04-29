@@ -30,7 +30,7 @@ public class Tasks {
 	private int is_delete;
 	private int status;
 	private String file;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime targetDate;
 
 	@JsonIgnore

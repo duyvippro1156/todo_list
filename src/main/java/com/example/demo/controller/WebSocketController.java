@@ -28,16 +28,16 @@ public class WebSocketController {
     private TasksRepository tasksRepository;
 
     @Scheduled(fixedRate = 1000)
-    @MessageMapping("/private")
-    public void callAPI() {
+    @MessageMapping("api/tasks/")
+    public void SendNotifi() {
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = now.format(formatter);
 
         Tasks tasks = tasksRepository.findByTargetDate(formattedDateTime);
         if (tasks != null) {
-            String message = tasks.getTask_name() + "has time out!";
-            messagingTemplate.convertAndSend("/topic/public", message);
+            String message = tasks.getTask_name() + " has time out!";
+            messagingTemplate.convertAndSend("/api/tasks", message);
         }
     }
 }

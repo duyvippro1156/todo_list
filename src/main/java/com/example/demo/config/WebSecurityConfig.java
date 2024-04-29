@@ -55,16 +55,18 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated()
                         authorize.requestMatchers("/api/auth/**").permitAll()
+                                // .requestMatchers("/**").permitAll()
                                 //  .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers("/api/tasks/**").hasRole("ADMIN")
+                                .requestMatchers("/api/tasks/**", "/ws/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilterl, UsernamePasswordAuthenticationFilter.class)
                 .logout((logout) -> logout.logoutSuccessUrl("/api/auth/signout")
-                                          .deleteCookies("JSESSIONID")
+                                          .deleteCookies("JSESSIONID" )
                                           .clearAuthentication(true)
                                           .invalidateHttpSession(true));
         return http.build();
+
     }
 
     @Autowired

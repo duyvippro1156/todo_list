@@ -27,9 +27,9 @@ public class WebSocketController {
     @Autowired
     private TasksRepository tasksRepository;
 
-    @Scheduled(fixedRate = 1000)
-    @MessageMapping("api/tasks/")
-    public void SendNotifi() {
+    @Scheduled(fixedRate = 10000)
+    @MessageMapping("/tasks")
+    public void SendNotify() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = now.format(formatter);
@@ -37,7 +37,10 @@ public class WebSocketController {
         Tasks tasks = tasksRepository.findByTargetDate(formattedDateTime);
         if (tasks != null) {
             String message = tasks.getTask_name() + " has time out!";
-            messagingTemplate.convertAndSend("/api/tasks", message);
+            messagingTemplate.convertAndSend("/topic/tasks", message);
+        } else {
+            String message = "Test notification";
+            messagingTemplate.convertAndSend("/topic/tasks", message);
         }
     }
 }

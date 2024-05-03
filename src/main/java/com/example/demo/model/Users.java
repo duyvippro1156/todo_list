@@ -34,4 +34,13 @@ public class Users {
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
+
+    @OneToMany(mappedBy="users")
+    private Set<Projects> projects;
+
+    @OneToMany(mappedBy="users")
+    private Set<TasksProject> tasksProjects;
+
+    @OneToMany(mappedBy="users")
+    private Set<UsersProject> usersProjects;
 }

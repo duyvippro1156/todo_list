@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                         authorize.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/ws/**", "/index", "/css/**").permitAll()
                                 //  .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers("/api/tasks/**").hasRole("ADMIN")
+                                .requestMatchers("/api/tasks/**", "/api/projects/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilterl, UsernamePasswordAuthenticationFilter.class)

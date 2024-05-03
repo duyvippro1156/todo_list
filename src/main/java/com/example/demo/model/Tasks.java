@@ -41,5 +41,8 @@ public class Tasks {
 		inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private Set<Users> users;
+
+	@OneToMany(mappedBy="tasks")
+    private Set<TasksProject> tasksProjects;
 } 
 

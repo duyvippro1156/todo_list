@@ -27,6 +27,8 @@ public class Tasks {
 	private String completed; 
 
 	private int level;
+
+	@JsonIgnore
 	private int is_delete;
 	private int status;
 	private String file;

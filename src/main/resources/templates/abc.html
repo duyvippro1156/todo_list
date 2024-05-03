@@ -16,10 +16,10 @@
         var socket = new SockJS('/ws');
         var stompClient = Stomp.over(socket);
         function connect() {
-            stompClient.connect({}, function (frame) {
+            stompClient.connect({'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlteF90dHNAcmlra2Vpc29mdC5jb20iLCJpYXQiOjE3MTQ3MDI5NjgsImV4cCI6MTcxNDcyMDk2OH0.GxD2H440ioV5Wd_4cIvZBVwO00QMTpfs_M804rEEa90'}, function (frame) {
       
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/api/tasks', function (message) {
+                stompClient.subscribe('/topic/tasks', function (message) {
                       console.log('Message received: ' + message.body);
                 });
             });

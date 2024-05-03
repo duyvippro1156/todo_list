@@ -51,13 +51,14 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated()
                         authorize.requestMatchers("/api/auth/**").permitAll()
-                                // .requestMatchers("/**").permitAll()
+                                .requestMatchers("/ws/**", "/index", "/css/**").permitAll()
                                 //  .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers("/api/tasks/**", "/ws/**").hasRole("ADMIN")
+                                .requestMatchers("/api/tasks/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilterl, UsernamePasswordAuthenticationFilter.class)
@@ -81,7 +82,7 @@ public class WebSecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
-        // configuration.setExposedHeaders(Arrays.asList("X-Get-Header"));
+        configuration.setExposedHeaders(Arrays.asList("X-Get-Header"));
         // configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -35,12 +35,15 @@ public class Users {
         inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
+    @JsonIgnore
     @OneToMany(mappedBy="users")
     private Set<Projects> projects;
 
+    @JsonIgnore
     @OneToMany(mappedBy="users")
     private Set<TasksProject> tasksProjects;
 
+    @JsonIgnore
     @OneToMany(mappedBy="users")
     private Set<UsersProject> usersProjects;
 }

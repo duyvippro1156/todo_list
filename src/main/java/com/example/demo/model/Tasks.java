@@ -3,8 +3,6 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-// import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,6 +15,7 @@ import lombok.Setter;
 @Getter
 @Table(name = "Tasks")
 @Entity
+// @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class Tasks { 
 	@Id
@@ -42,6 +41,7 @@ public class Tasks {
         joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private Set<Users> users;
 
+	@JsonIgnore
 	@OneToMany(mappedBy="tasks")
     private Set<TasksProject> tasksProjects;
 } 

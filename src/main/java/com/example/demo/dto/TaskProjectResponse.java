@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,17 +14,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TasksDto {
-	private Long id; 
+@Data
+public class TaskProjectResponse {
 
-	private String task_name; 
-	private String completed; 
-	private int level;
-	private int is_delete;
-	private int status;
-	private String file;
-	private LocalDateTime targetDate;
+    private Long id;
 
-	private Long id_user;
+    private String task_name;
+    private String completed;
+    private int level;
+    private int status;
+    private String file;
+    private LocalDateTime targetDate;
+
 
 }

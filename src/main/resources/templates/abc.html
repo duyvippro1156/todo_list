@@ -13,18 +13,33 @@
 <body>
     <h1>Welcome</h1>
     <script>
-        var socket = new SockJS('/ws');
-        var stompClient = Stomp.over(socket);
-        function connect() {
-            stompClient.connect({'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlteF90dHNAcmlra2Vpc29mdC5jb20iLCJpYXQiOjE3MTQ3MDI5NjgsImV4cCI6MTcxNDcyMDk2OH0.GxD2H440ioV5Wd_4cIvZBVwO00QMTpfs_M804rEEa90'}, function (frame) {
+        // var socket = new SockJS('/ws');
+        // var stompClient = Stomp.over(socket);
+        // function connect() {
+        //     stompClient.connect({'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlteF90dHNAcmlra2Vpc29mdC5jb20iLCJpYXQiOjE3MTQ3MDI5NjgsImV4cCI6MTcxNDcyMDk2OH0.GxD2H440ioV5Wd_4cIvZBVwO00QMTpfs_M804rEEa90'}, function (frame) {
       
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/tasks', function (message) {
-                      console.log('Message received: ' + message.body);
-                });
+        //         console.log('Connected: ' + frame);
+        //         stompClient.subscribe('/topic/tasks', function (message) {
+        //               console.log('Message received: ' + message.body);
+        //         });
+        //     });
+        // }
+        // connect();
+
+        $(function(){
+            $.ajax({
+                type: 'GET',
+                dataType:"json",
+                url: "http://10.20.14.45:8080/api/project/",       
+                headers:{         
+                    'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlteF90dHNAcmlra2Vpc29mdC5jb20iLCJpYXQiOjE3MTQ5ODgwMDAsImV4cCI6MTcxNTAwNjAwMH0.ZxX9FfTMXYuw3dsL_WQgwyT47IsEqnZD-jruPCmPUys',
+                    'Content-Type':'application/json'
+                },
+                succces: function(data){
+                    console.log('success',data);                    
+                }
             });
-        }
-        connect();
+        });
 
     </script>
 </body>

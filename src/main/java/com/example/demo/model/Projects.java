@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
+import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +27,7 @@ public class Projects {
 	private String project_name; 
 	private int status;
 
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name="user_id_manager", nullable=false)
     private Users users;
@@ -31,6 +35,7 @@ public class Projects {
 	@OneToMany(mappedBy="projects")
     private Set<TasksProject> tasksProjects;
 
+	@JsonIgnore
 	@OneToMany(mappedBy="project")
     private Set<UsersProject> usersProjects;
 
